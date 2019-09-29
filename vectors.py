@@ -56,6 +56,9 @@ def dot_product(myVec):
     # which is vector b/ mag of b
     #
     vec_a_b = (a_b/np.linalg.norm(b)) * b
+    print(vec_a_b)
+    print(np.linalg.norm(vec_a_b))
+    # value returned by this should be identical to what we got before, just that it is a vector
     plot_vectors([a, b, vec_a_b])
     return
 
