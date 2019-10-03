@@ -3,6 +3,7 @@ import sklearn.datasets
 import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
+from sklearn.metrics import accuracy_score
 
 # real world data
 breast_cancer = sklearn.datasets.load_breast_cancer()
@@ -125,7 +126,9 @@ plt.show()
 
 # instead of doing this column wise. We can do it across all
 # features. Use the pd.cut call, and into 2 bins, with labels 0,1
-X_binarised_train = X_train.apply(pd.cut, bins=2, labels=[0, 1])
+# X_binarised_train = X_train.apply(pd.cut, bins=2, labels=[0, 1])
+# if you see above we had labels 0,1 instead can we try 1,0
+X_binarised_train = X_train.apply(pd.cut, bins=2, labels=[1, 0])
 plt.plot(X_binarised_train, "*")
 plt.xticks(rotation='vertical')
 plt.show()
@@ -135,12 +138,83 @@ plt.plot(X_binarised_train.T, "*")
 plt.xticks(rotation='vertical')
 plt.show()
 
+# Use pd.cut to do this auto for ALL FEATURES
 # do it for test also
-X_binarised_test = X_test.apply(pd.cut, bins=2, labels=[0, 1])
-
+#X_binarised_test = X_test.apply(pd.cut, bins=2, labels=[0, 1])
+X_binarised_test = X_test.apply(pd.cut, bins=2, labels=[1, 0])
 # convert them back to numpy arrays
 X_binarised_test = X_binarised_test.values
 X_binarised_train = X_binarised_train.values
 
 # they will be numpy Arrays and we can now apply the model on them
 type(X_binarised_test)
+
+
+# INFERENCE AND SEARCH
+# MP NEURON, use "b" value
+
+b = 3
+i = 100  # row
+if (np.sum(X_binarised_train[100, :]) >= b):
+    print("MP Neuron Inference is malignant")
+else:
+    print("MP Neuron Inference is benign")
+# ans: MP Neuron Inference is benign
+if (Y_train[i] == 1):
+    print('Ground truth is malignant')
+else:
+    print('Ground truth is benign')
+
+# Goal is to find a value b where the accuracy is maximized
+# for .e.g for row 208 we will have a problem
+
+b = 3
+Y_pred_train = []  # predicted
+accurate_rows = 0
+
+# use zip to iterate over two iterators together
+for x, y in zip(X_binarised_train, Y_train):
+    y_pred = (np.sum(x) >= b)
+    Y_pred_train.append(y_pred)
+    accurate_rows += (y == y_pred)
+
+print(accurate_rows, accurate_rows/X_binarised_train.shape[0])
+# 77 0.150390625
+# this is low, 62% of the malignant baseline we need to get
+
+
+for b in range(X_binarised_train.shape[1] + 1):
+    Y_pred_train = []  # predicted
+    accurate_rows = 0
+    # use zip to iterate over two iterators together
+    for x, y in zip(X_binarised_train, Y_train):
+        y_pred = (np.sum(x) >= b)
+        Y_pred_train.append(y_pred)
+        accurate_rows += (y == y_pred)
+
+    print(b, accurate_rows, accurate_rows/X_binarised_train.shape[0])
+
+# Why is the model only able to do as good as b=3
+# if you see the means of 0/1 u will see the 0 value beningn
+# cases have larger feature set. So having a b to seperate
+# the features based on sizes is not working.
+# X_binarised_train = X_train.apply(pd.cut, bins=2, labels=[1, 0])
+# after changing the labels we see 84% accuracy
+# b = 28 is greater than baseline of 0.62 and higher accuracy
+# style of binarization impacts
+
+
+# INFERENCE
+# on train data set we got 80+% accuracy with b=28
+# can we get that in test data
+b = 28
+Y_pred_test = []  # predicted
+
+# use zip to iterate over two iterators together
+for x in X_binarised_test:
+    y_pred = (np.sum(x) >= b)
+    Y_pred_test.append(y_pred)
+
+accuracy = accuracy_score(Y_pred_test, Y_test)
+print(b, accuracy)
+# on test data the accuracy is .79
