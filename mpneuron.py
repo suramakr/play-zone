@@ -6,6 +6,7 @@ import matplotlib.pyplot as plt
 from sklearn.metrics import accuracy_score
 
 # real world data
+# https://scikit-learn.org/stable/modules/generated/sklearn.datasets.load_breast_cancer.html
 breast_cancer = sklearn.datasets.load_breast_cancer()
 
 # read x as features, and y as class label
@@ -53,7 +54,7 @@ print(breast_cancer.target_names)
 # class               ...
 # 0        17.462830  ...                 0.091530
 # 1        12.146524  ...                 0.079442
-print(data.groupby('class').mean())
+plt
 
 
 # SPLITTING AND TRAINING DATASET
@@ -154,12 +155,14 @@ type(X_binarised_test)
 # MP NEURON, use "b" value
 
 b = 3
-i = 100  # row
-if (np.sum(X_binarised_train[100, :]) >= b):
+i = 100  # row instead of 100
+if (np.sum(X_binarised_train[i, :]) >= b):
     print("MP Neuron Inference is malignant")
 else:
     print("MP Neuron Inference is benign")
 # ans: MP Neuron Inference is benign
+
+print(Y.shape, Y_train.shape, Y_test.shape)
 if (Y_train[i] == 1):
     print('Ground truth is malignant')
 else:
@@ -178,6 +181,7 @@ for x, y in zip(X_binarised_train, Y_train):
     Y_pred_train.append(y_pred)
     accurate_rows += (y == y_pred)
 
+print('CALCULATING ACCURACY NOW')
 print(accurate_rows, accurate_rows/X_binarised_train.shape[0])
 # 77 0.150390625
 # this is low, 62% of the malignant baseline we need to get
@@ -192,6 +196,7 @@ for b in range(X_binarised_train.shape[1] + 1):
         Y_pred_train.append(y_pred)
         accurate_rows += (y == y_pred)
 
+    print("b accurate rows accuracy:")
     print(b, accurate_rows, accurate_rows/X_binarised_train.shape[0])
 
 # Why is the model only able to do as good as b=3
@@ -216,5 +221,6 @@ for x in X_binarised_test:
     Y_pred_test.append(y_pred)
 
 accuracy = accuracy_score(Y_pred_test, Y_test)
+print('value of b and accuracy')
 print(b, accuracy)
 # on test data the accuracy is .79
