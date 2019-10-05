@@ -87,6 +87,8 @@ print(Y.mean(), Y_train.mean(), Y_test.mean())
 # the y_test has only 57% malign cases
 # let's stratify the data to fix this
 
+# This stratify parameter makes a split so that the proportion of values
+# in the sample produced will be the same as the proportion of values provided to parameter
 X_train, X_test, Y_train, Y_test = train_test_split(
     X, Y, test_size=0.1, stratify=Y)
 print(Y.mean(), Y_train.mean(), Y_test.mean())
