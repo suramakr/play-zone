@@ -105,6 +105,7 @@ X = data.drop('class', axis=1)
 Y = data['class']
 
 # Get data ready
+# random_state=1 ensures similar testset every time we run it
 X_train, X_test, Y_train, Y_test = train_test_split(
     X, Y, test_size=0.1, stratify=Y, random_state=1)
 X_train = X_train.values  # converting to numpy Arrays
