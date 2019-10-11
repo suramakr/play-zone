@@ -340,5 +340,5 @@ print("Number of features in train: %d" % train_new.shape[1])
 print("Number of data points in test: %d" % test_new.shape[0])
 print("Number of features in test: %d" % test_new.shape[1])
 
-train_new.head()
-test_new.head()
+print(train_new.head())
+print(test_new.head())
