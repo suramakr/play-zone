@@ -32,6 +32,8 @@ def grad_b(w, b, x, y):
     return (fx - y) * fx * (1 - fx)
 
 # function that computes derivative of loss fn w.r.t w
+
+
 def grad_w(w, b, x, y):
     fx = sigmoid_f(w, b, x)
     return (fx - y) * fx * (1 - fx) * x
