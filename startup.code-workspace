@@ -1,11 +1,14 @@
 {
-  "folders": [
-	{
-		"path": "/Users/sramakrishnan/work/NodeJSProjects/medtatva-frontend"
-	},
-	{
-		"path": "."
-	}
-],
-  "settings": {}
+	"folders": [
+		{
+			"path": "/Users/sramakrishnan/work/NodeJSProjects/medtatva-frontend"
+		},
+		{
+			"path": "."
+		},
+		{
+			"path": "/Users/sramakrishnan/work/java"
+		}
+	],
+	"settings": {}
 }
