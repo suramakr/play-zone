@@ -54,7 +54,6 @@ def do_gradient_descent():
         plt.plot(dw, db)
     w = w - eta * dw
     b = b - eta * db
-    plt.show()
 
 
 plt.plot(X, Y)
