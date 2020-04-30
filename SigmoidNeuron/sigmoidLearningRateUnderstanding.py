@@ -1,3 +1,7 @@
+# Finding the right balance in learning rate is important
+# Large learning rates - drastic change in decision boundary
+# Small learning rates - within epochs can’t find optimal solution
+
 from sklearn.model_selection import train_test_split
 import sklearn.datasets
 import numpy as np
@@ -83,7 +87,7 @@ def plot_sn(X, Y, sn, ax):
     ax.contourf(XX1, XX2, YY, cmap=my_cmap, alpha=0.6)
     ax.scatter(X[:, 0], X[:, 1], c=Y)
     ax.plot()
-    # plt.show()
+    plt.show()
 
 
 # linearly seperable data
@@ -97,7 +101,7 @@ sn = SigmoidNeuron()
 sn.fit(X, Y, 1, 0.05, True)
 N = 15
 plt.figure(figsize=(10, N * 5))
-# plt.show()
+plt.show()
 for i in range(N):
     print(sn.w, sn.b)  # weight and bias
     # have n linear plots
@@ -105,11 +109,3 @@ for i in range(N):
     plot_sn(X, Y, sn, ax)
     sn.fit(X, Y, 1, 0.25, False)
 # plt.show()
-
-
-# Load data set
-path = '/Users/sramakrishnan/work/python/play-zone/SigmoidNeuron'
-data = pd.read_csv(path + '/mobile_cleaned.csv')
-
-# first understand shape
-data.shape
