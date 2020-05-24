@@ -1,3 +1,4 @@
+from sklearn.preprocessing import StandardScaler
 import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
@@ -56,7 +57,7 @@ my_cmap = matplotlib.colors.LinearSegmentedColormap.from_list(
 # alpha introduces transparency and grid lines
 # faster transition is shown by a thinner transition
 plt.contourf(XX1, XX2, Y, cmap=my_cmap, alpha=0.6)
-plt.show()
+# plt.show()
 
 fig = plt.figure()
 ax = plt.axes(projection='3d')
@@ -88,7 +89,7 @@ def calculate_loss(X, Y, w_est, b_est):
     return loss
 
 
-plt.plot(X, Y, '*')
+# plt.plot(X, Y, '*')
 # plt.show()
 
 W = np.linspace(0, 2, 100)
@@ -109,7 +110,8 @@ ax.set_xlabel('w')
 ax.set_ylabel('b')
 ax.set_zlabel('Loss')
 ax.view_init(30, 180)  # see from bias perspective
-plt.show()
+# plt.show()
+
 
 # we want to find min w, b
 # seeing the graph, we observe -w is bad, so refine the space of W
@@ -121,3 +123,27 @@ j = int(ij-i * Loss.shape[1])
 
 print(i, j)
 print(WW[i, j], BB[i, j])
+
+
+# test standardisation
+# plt.close()
+plt.clf()
+R = np.random.random([100, 1])
+print(R.shape)
+plt.plot(range(100), R)
+plt.show()
+print(np.mean(R))
+print(np.std(R))
+
+scaler = StandardScaler(copy=True, with_mean=True, with_std=True)
+print("StandardScaler")
+scaler.fit(R)
+print(scaler.mean_)
+
+# Use the scaler to transform any data, having learnt
+print("transformation")
+RT = scaler.transform(R)
+print(np.mean(RT))  # mean is almost 0
+print(np.std(RT))  # std is 1
+plt.plot(RT)
+plt.show()
